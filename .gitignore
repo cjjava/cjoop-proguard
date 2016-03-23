@@ -1,0 +1,13 @@
+/.settings
+/.project
+/cjoop-proguard-plugin/.settings
+/cjoop-proguard-plugin/.classpath
+/cjoop-proguard-plugin/.project
+/cjoop-proguard-simple/.settings
+/cjoop-proguard-simple/.project
+/cjoop-proguard-simple/cjoop-proguard-simple-jar/.settings
+/cjoop-proguard-simple/cjoop-proguard-simple-jar/.classpath
+/cjoop-proguard-simple/cjoop-proguard-simple-jar/.project
+/cjoop-proguard-simple/cjoop-proguard-simple-war/.settings
+/cjoop-proguard-simple/cjoop-proguard-simple-war/.classpath
+/cjoop-proguard-simple/cjoop-proguard-simple-war/.project

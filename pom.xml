@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.cjoop</groupId>
+	<artifactId>cjoop-proguard</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>cjoop-proguard</name>
+	<description>maven项目混淆工具</description>
+	<url>http://www.cjoop.com</url>
+
+	<properties>
+		<encoding>UTF-8</encoding>
+	</properties>
+	
+	<repositories>
+		<repository>
+			<id>io.spring.repo.maven.release</id>
+			<url>http://repo.spring.io/release/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-libs-release</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+		<repository>
+			<id>lc-repo</id>
+			<url>https://coding.net/u/cjjava/p/lc-repo/git/raw/master</url>
+		</repository>
+	</repositories>
+	
+	<modules>
+		<module>cjoop-proguard-plugin</module>
+		<module>cjoop-proguard-simple</module>
+	</modules>
+</project>
