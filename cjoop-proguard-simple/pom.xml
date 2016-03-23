@@ -10,6 +10,5 @@
   <description>proguard-simple</description>
   <modules>
   	<module>cjoop-proguard-simple-jar</module>
-  	<module>cjoop-proguard-simple-war</module>
   </modules>
 </project>
