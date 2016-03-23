@@ -16,4 +16,22 @@
 			<version>2.6</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<!-- 这种是将classes打包成jar文件进行混淆
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<archiveClasses>true</archiveClasses>
+				</configuration>
+			</plugin> 
+			-->
+			<plugin>
+				<groupId>com.cjoop</groupId>
+				<artifactId>cjoop-proguard-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 </project>
