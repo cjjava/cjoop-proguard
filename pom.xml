@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.cjoop</groupId>
 	<artifactId>cjoop-proguard</artifactId>
@@ -7,12 +8,12 @@
 	<packaging>pom</packaging>
 	<name>cjoop-proguard</name>
 	<description>maven项目混淆工具</description>
-	<url>http://www.cjoop.com</url>
+	<url>https://github.com/cjjava/cjoop-proguard</url>
 
 	<properties>
 		<encoding>UTF-8</encoding>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>io.spring.repo.maven.release</id>
@@ -25,14 +26,105 @@
 			<id>spring-libs-release</id>
 			<url>https://repo.spring.io/libs-release</url>
 		</repository>
-		<repository>
-			<id>lc-repo</id>
-			<url>https://coding.net/u/cjjava/p/lc-repo/git/raw/master</url>
-		</repository>
 	</repositories>
-	
+
+	<distributionManagement>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<repository>
+			<id>ossrh</id>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+	</distributionManagement>
+
+	<developers>
+		<developer>
+			<name>chenjun</name>
+			<email>85309651@qq.com</email>
+			<organization>cjoop</organization>
+			<organizationUrl>http://www.cjoop.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<scm>
+		<connection>
+         scm:git:https://github.com/cjjava/cjoop-proguard.git
+      </connection>
+		<developerConnection>
+         scm:git:https://github.com/cjjava/cjoop-proguard.git
+      </developerConnection>
+		<url>https://github.com/cjjava/cjoop-proguard</url>
+		<tag>v0.0.1</tag>
+	</scm>
+
 	<modules>
 		<module>cjoop-proguard-plugin</module>
 		<module>cjoop-proguard-simple</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+               <groupId>org.sonatype.plugins</groupId>
+               <artifactId>nexus-staging-maven-plugin</artifactId>
+               <version>1.6.3</version>
+               <extensions>true</extensions>
+               <configuration>
+                 <serverId>ossrh</serverId>
+                 <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                 <autoReleaseAfterClose>true</autoReleaseAfterClose>
+               </configuration>
+             </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.5</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
