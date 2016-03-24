@@ -11,3 +11,5 @@
 /cjoop-proguard-simple/cjoop-proguard-simple-war/.settings
 /cjoop-proguard-simple/cjoop-proguard-simple-war/.classpath
 /cjoop-proguard-simple/cjoop-proguard-simple-war/.project
+/target
+/cjoop-proguard-simple/target
