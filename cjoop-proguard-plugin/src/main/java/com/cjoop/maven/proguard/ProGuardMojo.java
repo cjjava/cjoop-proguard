@@ -222,12 +222,10 @@ public class ProGuardMojo extends AbstractMojo{
 	 * 执行混淆
 	 */
 	protected void executeProGuard(){
+		log.info("-------------ProGuard Config----------------");
+		String cmd = StringUtils.join(args,System.lineSeparator());
+		System.out.println(cmd);
 		
-		if(log.isDebugEnabled()){
-			log.info("-------------ProGuard Config----------------");
-			String cmd = StringUtils.join(args,System.lineSeparator());
-			System.out.println(cmd);
-		}
 		if (args.size() == 0) {
 			System.out.println(ProGuard.VERSION);
 			System.out.println("Usage: java proguard.ProGuard [options ...]");
@@ -257,6 +255,7 @@ public class ProGuardMojo extends AbstractMojo{
 			}
 			System.exit(1);
 		}
+		
 	}
 	
 	/**
@@ -440,7 +439,7 @@ public class ProGuardMojo extends AbstractMojo{
 	}
 
 	/**
-	 * 检查输入输入环境是否满足条件
+	 * 检查输入输出环境是否满足条件
 	 * @throws MojoFailureException
 	 */
 	protected void checkInOut() throws MojoFailureException{
@@ -493,8 +492,6 @@ public class ProGuardMojo extends AbstractMojo{
 			}
 			inFile = baseFile;
 		}
-		log.info("---inJar:" + inFile);
-		log.info("---outJar:" + outFile);
 	}
 	
 	private boolean useArtifactClassifier() {
