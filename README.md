@@ -1,4 +1,4 @@
-### cjoop-proguard - mavenÏîÄ¿»ìÏı²å¼ş
+### cjoop-proguard - mavené¡¹ç›®æ··æ·†æ’ä»¶
 # Installation
 
 ## Java Requirements
@@ -13,12 +13,45 @@
 $ mvn install
 ```
 
+è¯¥é¡¹ç›®æ˜¯å¯¹https://github.com/wvengen/proguard-maven-plugin é¡¹ç›®çš„ç®€åŒ–,åŒæ—¶æä¾›å¯¹waré¡¹ç›®2ç§ç¯å¢ƒçš„æ··æ·†æ”¯æŒ.
+
+----
+	<plugin>
+	<groupId>com.cjoop</groupId>
+	<artifactId>cjoop-proguard-plugin</artifactId>
+	<version>0.0.1</version>
+	<executions>
+		<execution>
+			<id>run-proguard</id>
+			<phase>package</phase>
+			<goals>
+				<goal>proguard</goal>
+			</goals>
+		</execution>
+	</executions>
+	<configuration>
+		<options>
+			<option>-target 1.7</option>
+			<option>-dontoptimize</option>
+			<option>-dontshrink</option>
+			<option>-keepdirectories</option>
+			<option>-renamesourcefileattribute SourceFile</option>
+			<option>-useuniqueclassmembernames</option>
+			<option>....</option>
+		</options>
+		<libs>
+			<lib>${java.home}/lib/rt.jar</lib>
+		</libs>
+	</configuration>
+</plugin>
+----
+
 ## Found a bug?
-Èç¹ûÓĞÇëÔÚ[ÕâÀï](https://github.com/cjjava/cjoop-proguard/issues/new)Ìá½»,ÎÒ»á¼°Ê±ĞŞ¸´.
+å¦‚æœæœ‰è¯·åœ¨[è¿™é‡Œ](https://github.com/cjjava/cjoop-proguard/issues/new)æäº¤,æˆ‘ä¼šåŠæ—¶ä¿®å¤.
 
 Change log
 ----------
 **ver 0.0.1:**
 
-- Ö§³Öjar,war»ìÏı.
+- æ”¯æŒjar,waræ··æ·†.
 
