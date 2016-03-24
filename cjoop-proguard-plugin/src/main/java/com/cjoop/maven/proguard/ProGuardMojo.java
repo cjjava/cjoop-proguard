@@ -328,7 +328,7 @@ public class ProGuardMojo extends AbstractMojo{
 	
 	/**
 	 * 是否是war文件
-	 * @return
+	 * @return true|false
 	 */
 	protected boolean mainIsWar(){
 		return mavenProject.getPackaging().equals("war");
