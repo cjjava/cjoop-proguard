@@ -7,12 +7,6 @@
 ## Maven Requirements
 * maven3.0.0+.
 
-#### Install with mvn
-
-```sh
-$ mvn install
-```
-
 该项目是对https://github.com/wvengen/proguard-maven-plugin 项目的简化,同时提供对war项目2种环境的混淆支持.
 
 ----
