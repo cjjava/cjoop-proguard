@@ -1,11 +1,14 @@
 package com.cjoop.maven.proguard;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.maven.artifact.Artifact;
@@ -178,6 +181,17 @@ public class ProGuardMojo extends AbstractMojo{
 	 * @parameter
 	 */
 	private String[] options;
+	
+	/**
+	 * 是否混淆jar文件名字,如果为true,所有的jar文件名字将会用uuid代替.
+	 * @parameter default-value="false"
+	 */
+	protected boolean proGuardFileName;
+	/**
+	 * 记录哪些jar文件被修改了名字
+	 * @parameter default-value="proguard_jars.txt"
+	 */
+	protected String jarFileName;
 	
 	File inFile,outFile,jarFile,proguardJarFile;
 	/**
@@ -400,7 +414,7 @@ public class ProGuardMojo extends AbstractMojo{
 				ZipParameters parameters = new ZipParameters();
 				parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
 				parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_FASTEST);
-				
+				ZipFile outZipFile = new ZipFile(outFile);
 				if(!sameArtifact){
 					ZipFile zipFile = new ZipFile(inFile);
 					File warDirectory = new File(outputDirectory,finalName);
@@ -422,13 +436,58 @@ public class ProGuardMojo extends AbstractMojo{
 						}
 					}
 					proguardJarFile.delete();
-					zipFile = new ZipFile(outFile);
-					zipFile.addFolder(webInfDir, parameters);
+					
+					outZipFile.addFolder(webInfDir, parameters);
+				}
+				if(proGuardFileName){
+					File destPath = new File(outputDirectory,FilenameUtils.getBaseName(outFile.getName())+"-proguard");
+					outZipFile.extractAll(destPath.getAbsolutePath());
+					List<String> logInfo = new ArrayList<String>();
+					proGuardLib(destPath,logInfo);
+					outFile.delete();
+					outZipFile = new ZipFile(outFile);
+					for (File file : destPath.listFiles()) {
+						if(file.isDirectory()){
+							outZipFile.addFolder(file, parameters);
+						}else{
+							outZipFile.addFile(file, parameters);
+						}
+					}
+					try {
+						FileUtils.writeLines(new File(outputDirectory,jarFileName), logInfo);
+					} catch (IOException e) {
+						log.warn("Error write proguard_jars.txt",e);
+					}
 				}
 			} catch (ZipException e) {
 				throw new MojoExecutionException("Error restore WAR classes", e);
 			}
 		}
+	}
+	
+	/**
+	 * 修改指定文件夹里面所有的jar,使用uuid命名
+	 * @param file 文件目录
+	 * @param logInfo 日志信息
+	 */
+	protected void proGuardLib(File file,List<String> logInfo){
+		if(file.isDirectory()){
+			for (File childFile : file.listFiles()) {
+				proGuardLib(childFile,logInfo);
+			}
+		}else{
+			String fileName = file.getName();
+			if(fileName.endsWith(".jar")){
+				String newName = uuid()+".jar";
+				File dest = new File(file.getParent(),newName);
+				file.renameTo(dest);
+				logInfo.add(fileName + " -> " + dest);
+			}
+		}
+	}
+	
+	protected String uuid(){
+		return UUID.randomUUID().toString().replaceAll("-", "");
 	}
 	
 	/**
