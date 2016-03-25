@@ -181,12 +181,18 @@ public class ProGuardMojo extends AbstractMojo{
 	 * @parameter
 	 */
 	private String[] options;
-	
+	/**
+	 * List of dependency exclusions
+	 *
+	 * @parameter
+	 */
+	private List<String> exclusions;
 	/**
 	 * 是否混淆jar文件名字,如果为true,所有的jar文件名字将会用uuid代替.
 	 * @parameter default-value="false"
 	 */
 	protected boolean proGuardFileName;
+	
 	/**
 	 * 记录哪些jar文件被修改了名字
 	 * @parameter default-value="proguard_jars.txt"
@@ -231,7 +237,60 @@ public class ProGuardMojo extends AbstractMojo{
 		
 		restoreWarStructure();
 		
+		proGuardFileName();
+		
 		clear();
+	}
+	
+	private boolean isExclusion(String fileName) {
+		if (exclusions == null) {
+			return false;
+		}
+		for (String exclusion : exclusions) {
+			if(fileName.startsWith(exclusion)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * 混淆文件名字
+	 * @throws MojoExecutionException 
+	 */
+	protected void proGuardFileName() throws MojoExecutionException{
+		if(proGuardFileName){
+			String fileName = outFile.getName();
+			try {
+				if(fileName.endsWith(".war") || fileName.endsWith(".zip")){
+					ZipParameters parameters = new ZipParameters();
+					parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
+					parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_FASTEST);
+					ZipFile outZipFile = new ZipFile(outFile);
+					File destPath = new File(outputDirectory,FilenameUtils.getBaseName(fileName)+"-proguard");
+					outZipFile.extractAll(destPath.getAbsolutePath());
+					List<String> logInfo = new ArrayList<String>();
+					proGuardLib(destPath,logInfo);
+					outFile.delete();
+					outZipFile = new ZipFile(outFile);
+					for (File file : destPath.listFiles()) {
+						if(file.isDirectory()){
+							outZipFile.addFolder(file, parameters);
+						}else{
+							outZipFile.addFile(file, parameters);
+						}
+					}
+					try {
+						FileUtils.writeLines(new File(outputDirectory,jarFileName), logInfo);
+					} catch (IOException e) {
+						log.warn("Error write proguard_jars.txt",e);
+					}
+				}
+			} catch (ZipException e) {
+				throw new MojoExecutionException("Error proGuardFileName JAR", e);
+			}
+		}
 	}
 	
 	/**
@@ -414,7 +473,6 @@ public class ProGuardMojo extends AbstractMojo{
 				ZipParameters parameters = new ZipParameters();
 				parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
 				parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_FASTEST);
-				ZipFile outZipFile = new ZipFile(outFile);
 				if(!sameArtifact){
 					ZipFile zipFile = new ZipFile(inFile);
 					File warDirectory = new File(outputDirectory,finalName);
@@ -436,28 +494,8 @@ public class ProGuardMojo extends AbstractMojo{
 						}
 					}
 					proguardJarFile.delete();
-					
+					ZipFile outZipFile = new ZipFile(outFile);
 					outZipFile.addFolder(webInfDir, parameters);
-				}
-				if(proGuardFileName){
-					File destPath = new File(outputDirectory,FilenameUtils.getBaseName(outFile.getName())+"-proguard");
-					outZipFile.extractAll(destPath.getAbsolutePath());
-					List<String> logInfo = new ArrayList<String>();
-					proGuardLib(destPath,logInfo);
-					outFile.delete();
-					outZipFile = new ZipFile(outFile);
-					for (File file : destPath.listFiles()) {
-						if(file.isDirectory()){
-							outZipFile.addFolder(file, parameters);
-						}else{
-							outZipFile.addFile(file, parameters);
-						}
-					}
-					try {
-						FileUtils.writeLines(new File(outputDirectory,jarFileName), logInfo);
-					} catch (IOException e) {
-						log.warn("Error write proguard_jars.txt",e);
-					}
 				}
 			} catch (ZipException e) {
 				throw new MojoExecutionException("Error restore WAR classes", e);
@@ -477,7 +515,7 @@ public class ProGuardMojo extends AbstractMojo{
 			}
 		}else{
 			String fileName = file.getName();
-			if(fileName.endsWith(".jar")){
+			if(fileName.endsWith(".jar") && !isExclusion(fileName)){
 				String newName = uuid()+".jar";
 				File dest = new File(file.getParent(),newName);
 				file.renameTo(dest);

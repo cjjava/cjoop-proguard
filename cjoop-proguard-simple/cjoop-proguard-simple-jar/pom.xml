@@ -72,6 +72,10 @@
 				<configuration>
 				<!-- 去掉这个配置,就是对jar的混淆 -->
 					<injar>${project.build.finalName}-bin.zip</injar>
+					<exclusions>
+						<!-- 排除要混淆的文件名,这里只是排除文件名的混淆 -->
+						<exclusion>${project.build.finalName}</exclusion>
+					</exclusions>
 				</configuration>
 			</plugin>
 		</plugins>

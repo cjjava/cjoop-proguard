@@ -10,7 +10,7 @@
 	<packaging>pom</packaging>
 	<description>proguard-simple</description>
 	<modules>
-		<module>cjoop-proguard-simple-war</module>
+		<module>cjoop-proguard-simple-jar</module>
 	</modules>
 
 	<build>
