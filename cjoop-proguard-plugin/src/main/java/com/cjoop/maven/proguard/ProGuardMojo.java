@@ -78,7 +78,7 @@ public class ProGuardMojo extends AbstractMojo{
 	 * You may specify a classes directory e.g. 'classes'. This way plugin will processed
 	 * the classes instead of jar. You would need to bind the execution to phase 'compile'
 	 * or 'process-classes' in this case.
-	 *
+	 * @parameter
 	 */
 	protected String injar;
 	
@@ -216,6 +216,18 @@ public class ProGuardMojo extends AbstractMojo{
 		executeProGuard();
 		
 		restoreWarStructure();
+		
+		clear();
+	}
+	
+	/**
+	 * 执行清除工作
+	 * @throws MojoFailureException 
+	 */
+	public void clear() throws MojoFailureException{
+		if(sameArtifact){
+			deleteFileOrDirectory(inFile);
+		}
 	}
 	
 	/**
@@ -443,6 +455,7 @@ public class ProGuardMojo extends AbstractMojo{
 	 * @throws MojoFailureException
 	 */
 	protected void checkInOut() throws MojoFailureException{
+		log.info("---------inFile:" + injar);
 		if(StringUtils.isBlank(injar)){
 			injar = finalName + "." + mavenProject.getPackaging();
 		}
@@ -478,7 +491,7 @@ public class ProGuardMojo extends AbstractMojo{
 			if (inFile.isDirectory()) {
 				baseFile = new File(outputDirectory, nameNoType(injar) + "_proguard_base");
 			} else {
-				baseFile = new File(outputDirectory, nameNoType(injar) + "_proguard_base." + mavenProject.getPackaging());
+				baseFile = new File(outputDirectory, nameNoType(injar) + "_proguard_base." + FilenameUtils.getExtension(injar));
 			}
 			if (baseFile.exists()) {
 				if (!deleteFileOrDirectory(baseFile)) {
