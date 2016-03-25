@@ -1,3 +1,3 @@
 @echo off
-java -jar cjoop-proguard-simple-jar-0.0.1-SNAPSHOT.jar
+java -Djava.ext.dirs=lib -jar cjoop-proguard-simple-jar-0.0.2-SNAPSHOT.jar
 pause
