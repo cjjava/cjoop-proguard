@@ -40,8 +40,6 @@
 </plugin>
 ----
 
-如果在本机进行打包操作,先删除maven-gpg-plugin插件的引用(没有配置gpg的情况).
-
 ## Found a bug?
 如果有请在[这里](https://github.com/cjjava/cjoop-proguard/issues/new)提交,我会及时修复.
 
