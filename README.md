@@ -1,4 +1,7 @@
 ### cjoop-proguard - maven项目混淆插件
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.cjoop/cjoop-proguard-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.cjoop/cjoop-proguard-plugin)
+
 # Installation
 
 ## Java Requirements
