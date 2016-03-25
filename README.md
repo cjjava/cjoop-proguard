@@ -1,5 +1,6 @@
 ### cjoop-proguard - maven项目混淆插件
 
+[![Build Status](https://travis-ci.org/cjjava/cjoop-proguard.svg?branch=master)](https://travis-ci.org/cjjava/cjoop-proguard)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.cjoop/cjoop-proguard-plugin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.cjoop/cjoop-proguard-plugin)
 
 # Installation
@@ -10,7 +11,7 @@
 ## Maven Requirements
 * maven3.0.0+.
 
-该项目是对https://github.com/wvengen/proguard-maven-plugin 项目的简化,同时提供对war项目2种环境的混淆支持.
+该项目是对https://github.com/wvengen/proguard-maven-plugin 项目的简化,同时提供对war项目2种环境的混淆支持.还可以对war和zip里面的jar文件名进行混淆,只需设置属性proGuardFileName=true
 
 ----
 	<plugin>
@@ -50,5 +51,8 @@ Change log
 ----------
 **ver 0.0.1:**
 
-- 支持jar,war混淆.
+- 支持jar,war,zip混淆.
 
+**ver 0.0.2:**
+
+- 支持对war和zip里面的jar文件名进行混淆.

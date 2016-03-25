@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.cjoop</groupId>
 		<artifactId>cjoop-proguard</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
+		<version>0.0.2</version>
 	</parent>
 	<artifactId>cjoop-proguard-simple</artifactId>
 	<packaging>pom</packaging>
@@ -20,7 +20,7 @@
 				<plugin>
 					<groupId>com.cjoop</groupId>
 					<artifactId>cjoop-proguard-plugin</artifactId>
-					<version>0.0.2-SNAPSHOT</version>
+					<version>0.0.2</version>
 					<executions>
 						<execution>
 							<id>run-proguard</id>
