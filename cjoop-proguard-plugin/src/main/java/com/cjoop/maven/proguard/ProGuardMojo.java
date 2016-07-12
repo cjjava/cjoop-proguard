@@ -72,7 +72,7 @@ public class ProGuardMojo extends AbstractMojo{
 	/**
 	 * @parameter property="project.build.finalName"
 	 */
-	protected String finalName;;
+	protected String finalName;
 	
 	/**
 	 * Specifies the input jar name (or wars, ears, zips) of the application to be
