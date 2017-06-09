@@ -308,7 +308,7 @@ public class ProGuardMojo extends AbstractMojo{
 	 */
 	protected void executeProGuard(){
 		log.info("-------------ProGuard Config----------------");
-		String cmd = StringUtils.join(args,System.lineSeparator());
+		String cmd = StringUtils.join(args,System.getProperty("line.separator"));
 		System.out.println(cmd);
 		
 		if (args.size() == 0) {
